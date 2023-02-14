@@ -141,7 +141,7 @@ STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
 
 # Users
 
-# AUTH_USER_MODEL = 'users.CustomUser'
+AUTH_USER_MODEL = "users.CustomUser"
 
 
 # My constant's
