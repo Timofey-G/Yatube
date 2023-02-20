@@ -45,6 +45,11 @@ class Post(CreatedModel):
         blank=True,
         help_text="Загрузите изображение",
     )
+    likes = models.IntegerField(
+        "Лайки",
+        blank=True,
+        null=True,
+    )
 
     class Meta:
         verbose_name = "Пост"
@@ -104,5 +109,4 @@ class Follow(models.Model):
         ]
 
     def __str__(self):
-        return (f"Подписчик: {self.user.username}. "
-                f"Подписка: {self.author.username}")
+        return f"Подписчик: {self.user.username}. " f"Подписка: {self.author.username}"

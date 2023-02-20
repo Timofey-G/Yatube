@@ -139,3 +139,15 @@ def profile_unfollow(request, username):
     following = Follow.objects.filter(user=request.user, author=author)
     following.delete()
     return redirect("posts:profile", username)
+
+
+@login_required
+def post_add_like(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
+    post.likes = post.likes + 1
+    return redirect("posts:index")
+
+
+@login_required
+def post_delete_like(request):
+    pass
