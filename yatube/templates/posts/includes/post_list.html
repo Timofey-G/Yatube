@@ -32,16 +32,23 @@
   <img class="card-img my-2" src="{{ im.url }}">
 {% endthumbnail %}
   <p>{{ post.text }}</p>
-  <a href="{% url 'posts:post_detail' post.pk %}">подробная информация </a>
-
-  <svg display="none">
-    <symbol viewBox="0 0 800 800" id="heart">
-      <g>
-        <path d="M413,695.7c-7.9,5.3-18.1,5.3-26,0c-61.5-41.1-320.3-224-320.3-396.6C66.7,76.4,328.3,40.8,400,190.8
-	c71.7-150,333.3-114.3,333.3,108.3C733.3,471.7,474.5,654.6,413,695.7L413,695.7z"/>
-    </symbol>
-  </svg>
-  <svg class="heart btn btn-outline-dark btn-sm">
-    <use xlink:href="#heart"></use>
-  </svg>
+<div class="d-flex align-items-center justify-content-between">
+  <div>
+    <a href="{% url 'posts:post_detail' post.pk %}">подробная информация </a>
+  </div>
+  <div>
+    <svg display="none">
+      <symbol viewBox="0 0 800 800" id="heart">
+        <g>
+          <path d="M413,695.7c-7.9,5.3-18.1,5.3-26,0c-61.5-41.1-320.3-224-320.3-396.6C66.7,76.4,328.3,40.8,400,190.8
+	          c71.7-150,333.3-114.3,333.3,108.3C733.3,471.7,474.5,654.6,413,695.7L413,695.7z"/>
+      </symbol>
+    </svg>
+    <a class="btn btn-outline-dark btn-sm" href="" role="button">  
+      <svg class="heart">
+        <use xlink:href="#heart"></use>
+      </svg>
+      1
+    </a>
+</div>
 {% if not forloop.last %}<hr>{% endif %}

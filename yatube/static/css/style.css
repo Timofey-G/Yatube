@@ -1,0 +1,53 @@
+/* header */
+.btn.btn-link {
+  color: black;
+  text-decoration: none;
+}
+
+.btn.btn-link:hover {
+  color: black;
+  text-decoration: underline;
+}
+
+.btn.btn-link.active {
+  color: black;
+  text-decoration: underline;
+}
+
+/* post_list */
+.link_author {
+  color: black;
+  text-decoration: none;
+}
+
+.link_author:hover {
+  color: black;
+}
+
+.container.py-3.pb-0.mb-0 {
+  max-width: 350px;
+}
+
+.btn.btn-outline-dark.group:hover {
+  border-color: black;
+  background-color: rgba(0, 0, 0, 0);
+  color: black;
+  text-decoration: underline;
+}
+
+.heart {
+  width: 22px;
+  height: 22px;
+  fill: none;
+  stroke: #f00;
+  stroke-width: 40px;
+}
+
+.btn.btn-outline-dark.btn-sm:hover .heart {
+  fill: #f00;
+}
+
+.btn.btn-outline-dark:hover {
+  background-color: rgba(255, 255, 255, 0);
+  color: black
+}
