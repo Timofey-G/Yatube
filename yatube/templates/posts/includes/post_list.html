@@ -31,7 +31,7 @@
 {% thumbnail post.image "960x339" crop="center" upscale=True as im %}
   <img class="card-img my-2" src="{{ im.url }}">
 {% endthumbnail %}
-  <p>{{ post.text }}</p>
+<p>{{ post.text }}</p>
 <div class="d-flex align-items-center justify-content-between">
   <div>
     <a href="{% url 'posts:post_detail' post.pk %}">подробная информация </a>
@@ -44,11 +44,16 @@
 	          c71.7-150,333.3-114.3,333.3,108.3C733.3,471.7,474.5,654.6,413,695.7L413,695.7z"/>
       </symbol>
     </svg>
-    <a class="btn btn-outline-dark btn-sm" href="" role="button">  
+    <a class="btn btn-outline-dark btn-sm {% if request.user in post.likes.all %}active{% endif %}" href="{% url 'posts:like' post.id %}" role="button">  
       <svg class="heart">
         <use xlink:href="#heart"></use>
       </svg>
-      1
+      {% if post.likes.count != 0 %}
+        {{ post.likes.count }}
+      {% endif %}
     </a>
+  </div>
 </div>
-{% if not forloop.last %}<hr>{% endif %}
+{% if not forloop.last %}
+  <hr>
+{% endif %}

@@ -27,13 +27,8 @@ urlpatterns = [
         name="profile_unfollow",
     ),
     path(
-        "posts/<int:post_id>/add_like/",
-        views.post_add_like,
-        name="add_like",
-    ),
-    path(
-        "posts/<int:post_id>/delete_like/",
-        views.post_add_like,
-        name="delete_like",
+        "posts/<int:post_id>/like/",
+        views.post_like,
+        name="like",
     ),
 ]

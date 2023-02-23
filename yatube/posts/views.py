@@ -1,6 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
+from django.http import HttpResponseRedirect
 
 from .forms import CommentForm, PostForm
 from .models import Comment, Follow, Group, Post
@@ -142,12 +143,11 @@ def profile_unfollow(request, username):
 
 
 @login_required
-def post_add_like(request, post_id):
+def post_like(request, post_id):
     post = get_object_or_404(Post, id=post_id)
-    post.likes = post.likes + 1
-    return redirect("posts:index")
-
-
-@login_required
-def post_delete_like(request):
-    pass
+    author = get_object_or_404(User, id=request.user.id)
+    if post.likes.filter(id=author.id).exists():
+        post.likes.remove(author)
+    else:
+        post.likes.add(author)
+    return HttpResponseRedirect(request.META.get("HTTP_REFERER"))

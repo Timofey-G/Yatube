@@ -45,10 +45,10 @@ class Post(CreatedModel):
         blank=True,
         help_text="Загрузите изображение",
     )
-    likes = models.IntegerField(
-        "Лайки",
+    likes = models.ManyToManyField(
+        User,
         blank=True,
-        null=True,
+        related_name="likes",
     )
 
     class Meta:
