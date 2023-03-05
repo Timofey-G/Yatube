@@ -28,7 +28,7 @@
   max-width: 350px;
 }
 
-.btn.btn-outline-dark.group:hover {
+.btn.btn-outline-dark.button:hover {
   border-color: black;
   background-color: rgba(0, 0, 0, 0);
   color: black;
@@ -63,4 +63,9 @@
 
 .btn.btn-outline-dark.btn-sm.active:hover .heart {
   fill: none;
+}
+
+.detailed.information {
+  color: black;
+  text-decoration-color: black;
 }

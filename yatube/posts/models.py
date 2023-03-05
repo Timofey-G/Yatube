@@ -78,6 +78,7 @@ class Comment(CreatedModel):
     class Meta:
         verbose_name = "Комментарий"
         verbose_name_plural = "Комментарии"
+        ordering = ["-created"]
 
     def __str__(self):
         return self.text[: settings.AMOUNT_OF_SYMBOLS]

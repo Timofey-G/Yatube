@@ -1,10 +1,13 @@
-from django.contrib.auth.views import (LoginView, LogoutView,
-                                       PasswordChangeDoneView,
-                                       PasswordChangeView,
-                                       PasswordResetCompleteView,
-                                       PasswordResetConfirmView,
-                                       PasswordResetDoneView,
-                                       PasswordResetView)
+from django.contrib.auth.views import (
+    LoginView,
+    LogoutView,
+    PasswordChangeDoneView,
+    PasswordChangeView,
+    PasswordResetCompleteView,
+    PasswordResetConfirmView,
+    PasswordResetDoneView,
+    PasswordResetView,
+)
 from django.urls import path
 
 from . import views
@@ -68,5 +71,12 @@ urlpatterns = [
             template_name="users/password_reset_complete.html"
         ),
         name="password_reset_complete",
+    ),
+    path(
+        "profile_change_form/<pk>/",
+        views.UserUpdateView.as_view(
+            template_name="users/profile_change_form.html",
+        ),
+        name="profile_change_form",
     ),
 ]

@@ -11,7 +11,13 @@ User = get_user_model()
 
 
 def index(request):
-    post_list = Post.objects.select_related("group").all()
+    search_query = request.GET.get("search", "")
+    if search_query:
+        post_list = Post.objects.select_related("group").filter(
+            text__iregex=search_query,
+        )
+    else:
+        post_list = Post.objects.select_related("group").all()
     page_obj = paginator(post_list, request)
     context = {
         "page_obj": page_obj,

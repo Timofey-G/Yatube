@@ -1,43 +1,8 @@
 {% load static %}
+{% load thumbnail %}
 {% with request.resolver_match.view_name as view_name %}
 <header>
-  {% comment %} <nav class="navbar navbar-expand-sm navbar-light" style="background-color: #7395ae">
-    <div class="container">
-      <a class="navbar-brand" href="{% url 'posts:index' %}">
-        <img src="{% static 'img/logo.png' %}" width="30" height="30" class="d-inline-block align-top" alt="">
-        <span style="color:rgb(167, 10, 23)">Ya</span>tube
-      </a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" 
-      data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" 
-      aria-expanded="false">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <div class="navbar-nav me-auto p-2">
-            <a class="nav-link {% if view_name  == 'about:author' %}active{% endif %}" href="{% url 'about:author' %}">Об авторе</a>
-            <a class="nav-link {% if view_name  == 'about:tech' %}active{% endif %}" href="{% url 'about:tech' %}">Технологии</a>
-        </div>
-        <form class="d-flex p-4">
-          <input class="form-control mr-2" type="search" placeholder="Поиск по странице ..." aria-label="Search">
-        </form> 
-        <div class-"navbar-nav" >
-          {% if request.user.is_authenticated %}
-            <a class="btn btn-outline-danger {% if view_name  == 'posts:post_create' %}active{% endif %}" href="{% url 'posts:post_create' %}">
-              Новая запись
-            </a>
-            <a class="btn btn-outline-dark {% if view_name  == 'users:password_change_form' %}active{% endif %}" href="{% url 'users:password_change_form' %}">Изменить пароль</a>
-            <a class="btn btn-outline-warning {% if view_name  == 'users:logout' %}active{% endif %}" href="{% url 'users:logout' %}">Выйти</a>
-            <a>Пользователь: {{ user.username }}</a>
-          {% else %}
-            <a class="btn btn-outline-dark" href="{% url 'users:login' %}" tabindex="-1" aria-disabled="true">Войти</a>
-            <a class="btn btn-dark" href="{% url 'users:signup' %}" tabindex="-1" aria-disabled="true">Регистрация</a>
-          {% endif %}
-        </div>
-      </div>
-    </div>
-  </nav>  {% endcomment %}
-
-  <nav class="navbar navbar-expand-sm navbar-light bg-light">
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container">
       <a class="navbar-brand" href="{% url 'posts:index' %}">
         <img src="{% static 'img/logo.png' %}" width="30" height="30" class="d-inline-block align-top" alt="">
@@ -50,73 +15,46 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <div class="navbar-nav me-auto p-2">
-            <a class="btn btn-link {% if view_name  == 'about:author' %}active{% endif %}" href="{% url 'about:author' %}">Об авторе</a>
+            <a class="btn btn-link {% if view_name  == 'about:author' %}active{% endif %}" href="{% url 'about:author' %}">О сайте</a>
             <a class="btn btn-link {% if view_name  == 'about:tech' %}active{% endif %}" href="{% url 'about:tech' %}">Технологии</a>
         </div>
-        <div class-"navbar-nav ms-auto" >
-          {% if request.user.is_authenticated %}
+        <div class="navbar-nav">
+          <form class="d-flex p-4" action="{% url 'posts:index' %}">
+            <input class="form-control mr-2" type="search" placeholder="Поиск на странице ..." aria-label="Search" name="search">
+          </form>
+        </div>
+        {% if request.user.is_anonymous %}
+          <ul class="navbar-nav list-group-horizontal d-flex align-items-center justify-content-center">
+            <a class="btn btn-outline-danger {% if view_name  == 'users:login' %}active{% endif %}" href="{% url 'users:login' %}">Войти</a>
+            <a class="btn btn-dark m-2" href="{% url 'users:signup' %}">Регистрация</a>
+          </ul>
+        {% else %}
+          <ul class="navbar-nav list-group-horizontal d-flex align-items-center justify-content-center">
             <a class="btn btn-outline-danger" href="{% url 'posts:post_create' %}">
               Новая запись
             </a>
-            <a class="btn btn-link {% if view_name  == 'users:password_change_form' %}active{% endif %}" href="{% url 'users:password_change_form' %}">Изменить пароль</a>
-            <a class="btn btn-outline-dark" href="{% url 'users:logout' %}">Выйти</a>
-            <a>Пользователь: {{ user.username }}</a>
-          {% else %}
-            <a class="btn btn-outline-danger {% if view_name  == 'users:login' %}active{% endif %}" href="{% url 'users:login' %}">Войти</a>
-            <a class="btn btn-dark" href="{% url 'users:signup' %}">Регистрация</a>
-          {% endif %}
-          {% comment %} <form class="d-flex p-4">
-            <input class="form-control mr-2" type="search" placeholder="Поиск на странице ..." aria-label="Search">
-          </form> {% endcomment %}
-        </div>
+            <li class="nav-item dropdown ms-2">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                {% thumbnail request.user.profile_picture "45x45" crop="center" as im %}
+                  <img class="rounded-circle" alt="profile_picture" src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+                {% endthumbnail %}
+              </a>
+              <ul class="dropdown-menu text-center" aria-labelledby="navbarDropdownMenuLink" style="position: absolute; inset: 0px 0px auto auto; margin: 0px; transform: translate3d(0.5px, 60px, 0px);">
+                <div class="container">
+                  <li class="dropdown-header py-0"><a style="font-size: 17px">{{ user.username }}</a></li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li><a class="btn btn-link pt-0 pb-1" href="{% url 'users:profile_change_form' request.user.id %}">Профиль</a></li>
+                  <li><a class="btn btn-link {% if view_name  == 'users:password_change_form' %}active{% endif %} py-0" href="{% url 'users:password_change_form' %}">Изменить пароль</a></li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li><a class="btn btn-link py-0" href="{% url 'users:logout' %}">Выйти</a></li>
+                </div>
+              </ul>
+            </li>
+          </ul>
+        {% endif %}
       </div>
     </div>
   </nav> 
   <hr class="mt-0 pt-0">
-{% comment %} 
-  <nav class="navbar navbar-expand-sm navbar-light" style="background-color: lightskyblue">
-    <div class="container">
-      <a class="navbar-brand" href="{% url 'posts:index' %}">
-        <img src="{% static 'img/logo.png' %}" width="30" height="30" class="d-inline-block align-top" alt="">
-        <span style="color:red">Ya</span>tube
-      </a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" 
-      data-bs-target="#navbarContent" aria-controls="navbarContent" 
-      aria-expanded="false">
-          <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarContent">
-        <ul class="nav nav-pills d-flex ms-auto p-2">
-          <li class="nav-item"> 
-            <a class="nav-link {% if view_name  == 'about:author' %}active{% endif %}" href="{% url 'about:author' %}">Об авторе</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link {% if view_name  == 'about:tech' %}active{% endif %}" href="{% url 'about:tech' %}">Технологии</a>
-          </li>
-          {% if request.user.is_authenticated %}
-          <li class="nav-item"> 
-            <a class="nav-link {% if view_name  == 'posts:post_create' %}active{% endif %}" href="{% url 'posts:post_create' %}">Новая запись</a>
-          </li>
-          <li class="nav-item"> 
-            <a class="nav-link link-light {% if view_name  == 'users:password_change_form' %}active{% endif %}" href="{% url 'users:password_change_form' %}">Изменить пароль</a>
-          </li>
-          <li class="nav-item"> 
-            <a class="nav-link link-light {% if view_name  == 'users:logout' %}active{% endif %}" href="{% url 'users:logout' %}">Выйти</a>
-          </li>
-          <li>
-            Пользователь: {{ user.username }}
-          </li>
-          {% else %}
-          <li class="nav-item"> 
-            <a class="nav-link link-light {% if view_name  == 'users:login' %}active{% endif %}" href="{% url 'users:login' %}">Войти</a>
-          </li>
-          <li class="nav-item"> 
-            <a class="nav-link link-light {% if view_name  == 'users:signup' %}active{% endif %}" href="{% url 'users:signup' %}">Регистрация</a>
-          </li>
-          {% endif %}
-        </ul>
-      </div>
-    </div>
-  </nav> {% endcomment %}
 </header>
 {% endwith %}
